@@ -332,23 +332,22 @@
 		<div class="container">
 			<div class="flex-w flex-tr">
 				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<form>
+					<form id="test-form">
 						<h4 class="mtext-105 cl2 txt-center p-b-30">
 							Env&iacute;anos un Mensaje
 						</h4>
 
 						<div class="bor8 m-b-20 how-pos4-parent">
-							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email"
+							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="correo"
 								placeholder="Tu Email">
 							<img class="how-pos4 pointer-none" src="images/icons/icon-email.png" alt="ICON">
 						</div>
-
 						<div class="bor8 m-b-30">
-							<textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg"
+							<textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="mensaje"
 								placeholder="C&oacute;mo podemos ayudarte?"></textarea>
 						</div>
 
-						<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+						<button type="submit" id="submit-form" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
 							Enviar
 						</button>
 					</form>
@@ -409,11 +408,10 @@
 
 
 	<!-- Map -->
-	<div class="map">
+	<!-- <div class="map">
 		<div class="size-303" id="google_map" data-map-x="-16.398848280604206" data-map-y="-71.53690694831846"
 			data-scrollwhell="0" data-draggable="1" data-zoom="17"></div>
-		<!-- <div class="size-303" id="google_map" data-map-x="-16.398848280604206" data-map-y="-71.53690694831846" data-pin="images/icons/pin.png" data-scrollwhell="0" data-draggable="1" data-zoom="17"></div> -->
-	</div>
+	</div> -->
 
 
 
@@ -568,9 +566,9 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
 	<!--===============================================================================================-->
-	<script src="librerias/jquery/jquery-3.2.1.min.js"></script>
+	<!-- <script src="librerias/jquery/jquery-3.4.1.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="librerias/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
@@ -607,9 +605,38 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
-	<script src="js/map-custom.js"></script>
+	<!-- <script src="js/map-custom.js"></script> -->
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
+	<!--===============================================================================================-->
+	<script src="librerias/jquery/jquery.serialize-object.min.js"></script>
+	<script>
+		var $form = $('form#test-form'),
+			url = 'https://script.google.com/macros/s/AKfycbzlOHAyrhJ327FsAeMC5vDbIxCnbeU7NqnG1vMxeOjRs1LlY_Q/exec'
+			
+		$('#submit-form').on('click', function(e) {
+		e.preventDefault();
+		var jqxhr = $.ajax({
+			url: url,
+			method: "GET",
+			dataType: "json",
+			data: $form.serializeObject()
+			}).success(function (response) {
+				console.log("successfully run ajax request..." + response);
+				alert("Su mensaje se envío exitosamente. En breve nos pondremos en contacto con usted. Saludos.");
+			}).done(function (response) {
+				console.log("I am from done function"+response);
+			}).fail(function (response) {
+				console.log("I am from fail function."+response);
+				alert("Hubo un error al enviar su mensaje. Por favor escríbanos al whatsapp: 950695425");
+			}).always(function (response) {
+				console.log("I am from always function"+response);
+			});
+		})
+
+		
+
+	</script>
 
 </body>
 
