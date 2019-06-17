@@ -1291,15 +1291,16 @@
 						Newsletter
 					</h4>
 
-					<form>
+					<form id="news-form" method="post">
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="correo"
 								placeholder="tuemail@gmail.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
 
 						<div class="p-t-18">
-							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+							<button type="submit" id="newsletter-form"
+								class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 								Suscr&iacute;bete
 							</button>
 						</div>
@@ -1512,7 +1513,8 @@
 	</div>
 
 	<!--===============================================================================================-->
-	<script src="librerias/jquery/jquery-3.2.1.min.js"></script>
+	<!-- <script src="librerias/jquery/jquery-3.2.1.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="librerias/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
@@ -1612,7 +1614,41 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
+<!--===============================================================================================-->
+<script src="librerias/jquery/jquery.serialize-object.min.js"></script>
+<script src="librerias/sweetalert/sweetalert.min.js"></script>
+<script>
+	var $form = $('form#news-form'),
+		url = 'https://script.google.com/macros/s/AKfycbyNYc8sCd832eim6HkwgolLvKJd13_n9YKxfMYKgEbIJD_qTF4/exec'
 
+	$('#newsletter-form').on('click', function (e) {
+		e.preventDefault();
+
+		swal({
+			title: "ALERTA",
+			text: "Su mensaje se está enviando...",
+			button: false
+		});
+
+		var jqxhr = $.ajax({
+			url: url,
+			method: "GET",
+			dataType: "json",
+			data: $form.serializeObject()
+		}).success(function (response) {
+			console.log("successfully run ajax request..." + response);
+			swal("Su mensaje se envío exitosamente!", "usted recibirá notificaciones periodicamente. Saludos.", "success");
+		}).done(function (response) {
+			console.log("I am from done function" + response);
+		}).fail(function (response) {
+			console.log("I am from fail function." + response);
+			swal("Hubo un error al enviar su mensaje", "Por favor contáctenos al whatsapp: 950695425", "error");
+		}).always(function (response) {
+			console.log("I am from always function" + response);
+		});
+	})
+
+</script>
 </body>
 
 </html>

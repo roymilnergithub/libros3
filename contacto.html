@@ -335,8 +335,8 @@
 						</h4>
 
 						<div class="bor8 m-b-20 how-pos4-parent">
-							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="email" 
-								pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" 
+							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="email"
+								pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}"
 								name="correo" placeholder="Tu Email" required />
 							<img class="how-pos4 pointer-none" src="images/icons/icon-email.png" alt="ICON">
 						</div>
@@ -513,15 +513,16 @@
 						Newsletter
 					</h4>
 
-					<form>
+					<form id="news-form" method="post">
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="correo"
 								placeholder="tuemail@gmail.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
 
 						<div class="p-t-18">
-							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+							<button type="submit" id="newsletter-form"
+								class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 								Suscr&iacute;bete
 							</button>
 						</div>
@@ -635,6 +636,40 @@
 			}).success(function (response) {
 				console.log("successfully run ajax request..." + response);
 				swal("Su mensaje se envío exitosamente!", "en breve nos pondremos en contacto con usted. Saludos.", "success");
+			}).done(function (response) {
+				console.log("I am from done function" + response);
+			}).fail(function (response) {
+				console.log("I am from fail function." + response);
+				swal("Hubo un error al enviar su mensaje", "Por favor contáctenos al whatsapp: 950695425", "error");
+			}).always(function (response) {
+				console.log("I am from always function" + response);
+			});
+		})
+
+	</script>
+
+	<!--===============================================================================================-->
+	<script>
+		var $form = $('form#news-form'),
+			url = 'https://script.google.com/macros/s/AKfycbyNYc8sCd832eim6HkwgolLvKJd13_n9YKxfMYKgEbIJD_qTF4/exec'
+
+		$('#newsletter-form').on('click', function (e) {
+			e.preventDefault();
+
+			swal({
+				title: "ALERTA",
+				text: "Su mensaje se está enviando...",
+				button: false
+			});
+
+			var jqxhr = $.ajax({
+				url: url,
+				method: "GET",
+				dataType: "json",
+				data: $form.serializeObject()
+			}).success(function (response) {
+				console.log("successfully run ajax request..." + response);
+				swal("Su mensaje se envío exitosamente!", "usted recibirá notificaciones periodicamente. Saludos.", "success");
 			}).done(function (response) {
 				console.log("I am from done function" + response);
 			}).fail(function (response) {
